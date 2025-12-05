@@ -6,7 +6,7 @@
 
 import { http, createConfig, cookieStorage, createStorage } from 'wagmi';
 import { baseSepolia, base } from 'wagmi/chains';
-import { coinbaseWallet } from 'wagmi/connectors';
+import { coinbaseWallet, injected, walletConnect } from 'wagmi/connectors';
 
 /**
  * Supported chains for FRCT
@@ -19,14 +19,23 @@ export const supportedChains = [baseSepolia, base] as const;
 export const defaultChain = baseSepolia;
 
 /**
- * Wagmi configuration
+ * Wagmi configuration with multiple wallet connectors
  */
 export const wagmiConfig = createConfig({
   chains: supportedChains,
   connectors: [
+    // MetaMask and other injected wallets
+    injected({
+      target: 'metaMask',
+    }),
+    // Coinbase Wallet
     coinbaseWallet({
       appName: 'FRCT',
-      preference: 'smartWalletOnly',
+      preference: 'all', // Allow both smart wallet and extension
+    }),
+    // WalletConnect for mobile wallets
+    walletConnect({
+      projectId: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || '',
     }),
   ],
   transports: {

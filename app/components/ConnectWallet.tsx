@@ -3,7 +3,7 @@
 // =============================================================================
 // Connect Wallet Component
 // =============================================================================
-// Uses OnchainKit's Wallet components with custom styling
+// Uses OnchainKit's Wallet components with wallet aggregator for multiple options
 // =============================================================================
 
 import {
@@ -29,6 +29,7 @@ export function ConnectWallet({ className }: ConnectWalletProps) {
     <div className={className}>
       <Wallet>
         <OnchainConnectWallet
+          withWalletAggregator={true}
           className="!bg-teal-500/10 !border !border-teal-500/30 !text-teal-400 hover:!bg-teal-500/20 hover:!border-teal-500/50 !rounded-lg !px-4 !py-2 !font-mono !text-sm !transition-all"
         >
           <Avatar className="h-5 w-5" />
