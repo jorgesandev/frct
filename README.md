@@ -124,25 +124,25 @@ withdraw(amount: u64, to: Pubkey)
 
 ## Risk Engine
 
-The risk engine fetches real-time data from Polymarket and calculates a risk score:
+The risk engine fetches **real-time** data from **3 binary Polymarket markets** and calculates a risk score:
 
 ### Markets Tracked
 
-| Market | Weight | Risk Direction |
-|--------|--------|----------------|
-| US Recession 2026 | 25% | Higher probability = more risk |
-| US Recession 2025 | 20% | Higher probability = more risk |
-| Fed Rate Cuts 2025 | 15% | Fewer cuts = more risk |
-| Bitcoin Price 2025 | 25% | Lower bull probability = more risk |
-| Ethereum Price 2025 | 15% | Lower bull probability = more risk |
+| Market | Slug | Weight | Direction |
+|--------|------|--------|-----------|
+| **US Recession 2025** | `us-recession-in-2025` | 40% | Yes → +Risk |
+| **US Recession 2026** | `us-recession-by-end-of-2026` | 35% | Yes → +Risk |
+| **Negative GDP 2026** | `negative-gdp-growth-in-2026` | 25% | Yes → +Risk |
+
+> All markets are "defensive" indicators – higher "Yes" probability = higher risk score = more conservative allocation
 
 ### Regime Classification
 
 | Risk Score | Regime | Base % | Solana % |
 |------------|--------|--------|----------|
-| 0-30 | Aggressive | 30% | 70% |
-| 31-60 | Neutral | 50% | 50% |
-| 61-100 | Defensive | 70% | 30% |
+| 0-30 | **Aggressive** | 30% | 70% |
+| 31-60 | **Neutral** | 50% | 50% |
+| 61-100 | **Defensive** | 70% | 30% |
 
 ---
 

@@ -10,15 +10,12 @@ export type RiskRegime = 'Defensive' | 'Neutral' | 'Aggressive';
 /**
  * How a market's probability maps to risk
  */
-export type RiskDirection =
-  | 'higher_yes_is_more_risk'      // Binary "Yes" markets (recession)
-  | 'monetary_stress_from_cuts'    // Fed rate cuts special handling
-  | 'inverse_bull_probability';    // 1 - p(bull) for BTC/ETH
+export type RiskDirection = 'higher_yes_is_more_risk'; // Binary "Yes" = more defensive
 
 /**
- * Market type classification
+ * Market type classification (binary only for simplicity)
  */
-export type MarketType = 'binary' | 'multi';
+export type MarketType = 'binary';
 
 /**
  * Configuration for a single Polymarket market

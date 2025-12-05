@@ -1,19 +1,17 @@
 // =============================================================================
 // Risk Score Calculator
 // =============================================================================
+// Simplified to use only BINARY markets for clear, interpretable risk scoring.
+// =============================================================================
 
 import {
   POLYMARKET_MARKETS,
-  BULL_THRESHOLDS,
   REGIME_THRESHOLDS,
   REGIME_ALLOCATIONS,
 } from '@/config/polymarket';
 import {
-  fetchEventBySlug,
   fetchMarketBySlug,
   extractBinaryYesProbability,
-  calculateExpectedFedCuts,
-  calculateBullProbability,
 } from '@/lib/polymarket';
 import type {
   RiskRegime,
@@ -24,7 +22,7 @@ import type {
 } from '@/types/risk';
 
 /**
- * Calculate normalized risk (0-1) for a single market
+ * Calculate normalized risk (0-1) for a single BINARY market
  */
 async function calculateMarketRisk(config: MarketRiskConfig): Promise<MarketCalculation> {
   let rawProbability = 0.5;
@@ -33,46 +31,17 @@ async function calculateMarketRisk(config: MarketRiskConfig): Promise<MarketCalc
   let explanation = '';
 
   try {
-    if (config.type === 'binary') {
-      // Binary market - fetch single market
-      const market = await fetchMarketBySlug(config.slug);
+    const market = await fetchMarketBySlug(config.slug);
+    
+    if (market) {
+      question = market.question || config.slug;
+      rawProbability = extractBinaryYesProbability(market);
       
-      if (market) {
-        question = market.question || config.slug;
-        rawProbability = extractBinaryYesProbability(market);
-        
-        if (config.riskDirection === 'higher_yes_is_more_risk') {
-          normalizedRisk = rawProbability;
-          explanation = `${question}: ${(rawProbability * 100).toFixed(1)}% probability -> ${(normalizedRisk * 100).toFixed(1)}% risk contribution`;
-        }
-      } else {
-        explanation = `${config.slug}: Market data unavailable, using neutral (50%)`;
-      }
-    } else if (config.type === 'multi') {
-      // Multi-outcome market - fetch event
-      const event = await fetchEventBySlug(config.slug);
-      
-      if (event) {
-        question = event.title || config.slug;
-        
-        if (config.riskDirection === 'monetary_stress_from_cuts') {
-          // Fed rate cuts: fewer cuts = more stress/risk
-          const expectedCuts = calculateExpectedFedCuts(event);
-          const cutsNormalized = Math.min(expectedCuts / 3, 1); // 3+ cuts = 1.0
-          normalizedRisk = 1 - cutsNormalized; // Fewer cuts = more risk
-          rawProbability = expectedCuts;
-          explanation = `Fed rate cuts: Expected ${expectedCuts.toFixed(2)} cuts -> ${(normalizedRisk * 100).toFixed(1)}% monetary stress`;
-        } else if (config.riskDirection === 'inverse_bull_probability') {
-          // Crypto price: less bull = more risk
-          const threshold = BULL_THRESHOLDS[config.key as keyof typeof BULL_THRESHOLDS] || 0;
-          const bullProb = calculateBullProbability(event, threshold);
-          normalizedRisk = 1 - bullProb; // Less bull = more risk
-          rawProbability = bullProb;
-          explanation = `${question}: ${(bullProb * 100).toFixed(1)}% bull probability -> ${(normalizedRisk * 100).toFixed(1)}% risk contribution`;
-        }
-      } else {
-        explanation = `${config.slug}: Event data unavailable, using neutral (50%)`;
-      }
+      // All markets: Higher "Yes" = higher risk (defensive indicators)
+      normalizedRisk = rawProbability;
+      explanation = `${question}: ${(rawProbability * 100).toFixed(1)}% Yes → +${(normalizedRisk * 100).toFixed(1)}% risk`;
+    } else {
+      explanation = `${config.slug}: Market data unavailable, using neutral (50%)`;
     }
   } catch (error) {
     console.error(`Error calculating risk for ${config.slug}:`, error);
@@ -152,4 +121,3 @@ export async function calculateRiskSummary(): Promise<RiskSummary> {
     cacheHit: false,
   };
 }
-
