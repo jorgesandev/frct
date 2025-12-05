@@ -24,6 +24,7 @@ import {
 import Link from 'next/link';
 
 import { useVault, useUserUsdc } from '@/hooks/useVault';
+import { useSolanaVault } from '@/hooks/useSolanaVault';
 import { useRiskSummary, getRegimeBadgeClass } from '@/hooks/useRiskSummary';
 import { 
   ChainBalanceCard, 
@@ -42,13 +43,22 @@ type Tab = 'overview' | 'deposit' | 'withdraw' | 'payout' | 'settings';
 export default function Dashboard() {
   const { address, isConnected } = useAccount();
   const { data: vault, formatted, isLoading: vaultLoading, refetch: refetchVault, vaultAddress } = useVault();
+  const { balance: solanaBalance, isLoading: solanaLoading, refetch: refetchSolana } = useSolanaVault();
   const { balanceFormatted: userUsdcBalance } = useUserUsdc();
   const { data: riskData, isLoading: riskLoading, refetch: refetchRisk } = useRiskSummary();
   
   const [activeTab, setActiveTab] = useState<Tab>('overview');
 
+  // Calculate real total value (Base + Solana)
+  const solanaBalanceNum = parseFloat(solanaBalance) || 0;
+  const baseBalanceNum = parseFloat(formatted.baseBalanceFormatted.replace(/,/g, '')) || 0;
+  const realTotalValue = baseBalanceNum + solanaBalanceNum;
+  const realBasePercent = realTotalValue > 0 ? (baseBalanceNum / realTotalValue) * 100 : 50;
+  const realSolanaPercent = realTotalValue > 0 ? (solanaBalanceNum / realTotalValue) * 100 : 50;
+
   const handleRefresh = () => {
     refetchVault();
+    refetchSolana();
     refetchRisk();
   };
 
@@ -130,23 +140,25 @@ export default function Dashboard() {
                 <Wallet className="h-4 w-4 sm:h-5 sm:w-5 text-teal-400" />
               </div>
               <div className="stat-value text-teal-400 text-2xl sm:text-3xl">
-                ${vaultLoading ? '...' : formatted.totalValueFormatted}
+                ${(vaultLoading || solanaLoading) ? '...' : realTotalValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </div>
-              <span className="text-xs sm:text-sm text-zinc-500 mt-1 block">USDC</span>
+              <span className="text-xs sm:text-sm text-zinc-500 mt-1 block">USDC (Base + Solana)</span>
             </div>
 
             {/* Chain Balances */}
             <ChainBalanceCard 
               chain="base" 
               balance={formatted.baseBalanceFormatted}
-              percent={formatted.actualBasePercent}
+              percent={realBasePercent}
               loading={vaultLoading}
+              isLive={true}
             />
             <ChainBalanceCard 
               chain="solana" 
-              balance={formatted.solanaBalanceFormatted}
-              percent={formatted.actualSolanaPercent}
-              loading={vaultLoading}
+              balance={solanaBalanceNum.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              percent={realSolanaPercent}
+              loading={solanaLoading}
+              isLive={true}
             />
 
             {/* Risk Score Quick View */}

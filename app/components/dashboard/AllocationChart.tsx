@@ -7,6 +7,7 @@
 // =============================================================================
 
 import { useVault } from '@/hooks/useVault';
+import { useSolanaVault } from '@/hooks/useSolanaVault';
 import { useRiskSummary } from '@/hooks/useRiskSummary';
 
 interface AllocationChartProps {
@@ -14,10 +15,11 @@ interface AllocationChartProps {
 }
 
 export function AllocationChart({ showRecommended = true }: AllocationChartProps) {
-  const { data: vault, formatted, isLoading: vaultLoading } = useVault();
+  const { formatted, isLoading: vaultLoading } = useVault();
+  const { balance: solanaBalance, isLoading: solanaLoading } = useSolanaVault();
   const { data: riskData } = useRiskSummary();
 
-  if (vaultLoading) {
+  if (vaultLoading || solanaLoading) {
     return (
       <div className="card p-4 sm:p-6">
         <div className="flex items-center justify-center h-40 sm:h-48">
@@ -27,8 +29,13 @@ export function AllocationChart({ showRecommended = true }: AllocationChartProps
     );
   }
 
-  const basePercent = formatted.actualBasePercent || 50;
-  const solanaPercent = formatted.actualSolanaPercent || 50;
+  // Calculate real percentages from actual balances
+  const solanaBalanceNum = parseFloat(solanaBalance) || 0;
+  const baseBalanceNum = parseFloat(formatted.baseBalanceFormatted.replace(/,/g, '')) || 0;
+  const realTotalValue = baseBalanceNum + solanaBalanceNum;
+  
+  const basePercent = realTotalValue > 0 ? (baseBalanceNum / realTotalValue) * 100 : 50;
+  const solanaPercent = realTotalValue > 0 ? (solanaBalanceNum / realTotalValue) * 100 : 50;
 
   // SVG calculations for donut chart - responsive sizes
   const size = 140; // Base size for mobile
@@ -91,7 +98,7 @@ export function AllocationChart({ showRecommended = true }: AllocationChartProps
           {/* Center content */}
           <div className="absolute inset-0 flex flex-col items-center justify-center">
             <span className="text-lg sm:text-xl font-bold text-zinc-100 font-mono">
-              ${formatted.totalValueFormatted}
+              ${realTotalValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </span>
             <span className="text-[10px] sm:text-xs text-zinc-500">Total Value</span>
           </div>
@@ -116,7 +123,7 @@ export function AllocationChart({ showRecommended = true }: AllocationChartProps
             <div>
               <p className="text-xs sm:text-sm font-medium text-zinc-100">Solana</p>
               <p className="text-[10px] sm:text-xs text-zinc-500">
-                ${formatted.solanaBalanceFormatted} ({solanaPercent.toFixed(1)}%)
+                ${solanaBalanceNum.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ({solanaPercent.toFixed(1)}%)
               </p>
             </div>
           </div>

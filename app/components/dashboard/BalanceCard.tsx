@@ -73,15 +73,24 @@ interface ChainBalanceCardProps {
   balance: string;
   percent: number;
   loading?: boolean;
+  isLive?: boolean; // Whether this is real on-chain data
 }
 
-export function ChainBalanceCard({ chain, balance, percent, loading }: ChainBalanceCardProps) {
+export function ChainBalanceCard({ chain, balance, percent, loading, isLive = true }: ChainBalanceCardProps) {
   const isBase = chain === 'base';
   
   return (
     <div className="card p-4 sm:p-6">
       <div className="flex items-center justify-between mb-3 sm:mb-4">
-        <span className="stat-label text-xs sm:text-sm">{isBase ? 'Base Balance' : 'Solana Balance'}</span>
+        <div className="flex items-center gap-2">
+          <span className="stat-label text-xs sm:text-sm">{isBase ? 'Base Balance' : 'Solana Balance'}</span>
+          {isLive && (
+            <span className="flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-green-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+            </span>
+          )}
+        </div>
         <div className={`flex h-5 w-5 sm:h-6 sm:w-6 items-center justify-center rounded-full ${
           isBase 
             ? 'bg-blue-500' 
@@ -109,9 +118,9 @@ export function ChainBalanceCard({ chain, balance, percent, loading }: ChainBala
         </span>
       </div>
       
-      {!isBase && (
-        <span className="text-[10px] sm:text-xs text-zinc-500 mt-2 block">(simulated)</span>
-      )}
+      <span className="text-[10px] sm:text-xs text-zinc-500 mt-2 block">
+        {isBase ? 'Base Sepolia' : 'Solana Devnet'}
+      </span>
     </div>
   );
 }
