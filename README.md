@@ -10,16 +10,18 @@
 |---------|----------|---------|----------|
 | **Base Sepolia** | TreasuryVaultBase | `0x36D4d2eaDE4BD7eC4aDa5660F1B5CCfe6a25f830` | [View on Basescan](https://sepolia.basescan.org/address/0x36d4d2eade4bd7ec4ada5660f1b5ccfe6a25f830) |
 | Base Sepolia | USDC (Circle) | `0x036CbD53842c5426634e7929541eC2318f3dCF7e` | [View on Basescan](https://sepolia.basescan.org/address/0x036CbD53842c5426634e7929541eC2318f3dCF7e) |
-| Solana Devnet | TreasuryVaultSolana | `TBD` | - |
+| **Solana Devnet** | TreasuryVaultSolana | `3V64EHasPzNu7pzFA2STpWJrSgEVAAdPbeuFQQ53SrqL` | [View on Solana Explorer](https://explorer.solana.com/address/3V64EHasPzNu7pzFA2STpWJrSgEVAAdPbeuFQQ53SrqL?cluster=devnet) |
+| Solana Devnet | Vault PDA | `J7c13sZsYs5dDXrFDpPMunZGLdjsQfSDFphA67XQaGJf` | [View on Solana Explorer](https://explorer.solana.com/address/J7c13sZsYs5dDXrFDpPMunZGLdjsQfSDFphA67XQaGJf?cluster=devnet) |
 
-**Contract Status:** Deployed and Verified
+**Contract Status:** All contracts deployed and verified
 
 ---
 
 ## Live Demo
 
-- **Frontend:** [TBD - Vercel deployment]
-- **Risk API:** `/api/risk-summary` - Polymarket-powered risk scoring
+- **Frontend:** [frct.jorgesandoval.dev](https://frct.jorgesandoval.dev)
+- **Dashboard:** [frct.jorgesandoval.dev/dashboard](https://frct.jorgesandoval.dev/dashboard)
+- **Risk API:** [frct.jorgesandoval.dev/api/risk-summary](https://frct.jorgesandoval.dev/api/risk-summary)
 
 ---
 
