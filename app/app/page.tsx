@@ -12,12 +12,12 @@ import {
   Activity, 
   Shield, 
   Zap, 
-  GitBranch,
   TrendingUp,
   Globe,
   Lock 
 } from 'lucide-react';
 import { ConnectWallet } from '@/components/ConnectWallet';
+import { Logo } from '@/components/Logo';
 
 const features = [
   {
@@ -66,8 +66,8 @@ export default function Home() {
 
             {/* Logo Icon */}
             <div className="animate-fade-in stagger-1 mb-8 opacity-0">
-              <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-teal-400 to-cyan-500 shadow-lg animate-pulse-glow">
-                <GitBranch className="h-10 w-10 text-black" strokeWidth={2.5} />
+              <div className="animate-pulse-glow">
+                <Logo size="xl" showText={false} />
               </div>
             </div>
 
@@ -218,7 +218,7 @@ export default function Home() {
       <footer className="border-t border-zinc-800/50 py-8">
         <div className="mx-auto max-w-7xl px-6 flex flex-col items-center justify-between gap-4 sm:flex-row">
           <div className="flex items-center gap-2 text-sm text-zinc-500">
-            <GitBranch className="h-4 w-4" />
+            <Logo size="sm" showText={false} />
             <span>FRCT – Built for the Coinbase + Circle Hackathon</span>
           </div>
           <div className="flex gap-6">

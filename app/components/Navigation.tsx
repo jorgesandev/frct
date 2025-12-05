@@ -9,8 +9,9 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Activity, LayoutDashboard, GitBranch, Menu, X } from 'lucide-react';
+import { Activity, LayoutDashboard, Menu, X } from 'lucide-react';
 import { ConnectWallet } from './ConnectWallet';
+import { Logo } from './Logo';
 
 const navLinks = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -27,15 +28,9 @@ export function Navigation() {
         {/* Logo */}
         <Link 
           href="/"
-          className="flex items-center gap-2 text-xl font-bold tracking-tight"
           onClick={() => setMobileMenuOpen(false)}
         >
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-teal-400 to-cyan-500">
-            <GitBranch className="h-4 w-4 text-black" />
-          </div>
-          <span className="bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent">
-            FRCT
-          </span>
+          <Logo size="md" />
         </Link>
 
         {/* Desktop Navigation Links */}
