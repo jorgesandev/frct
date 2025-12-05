@@ -94,6 +94,7 @@ export function DepositForm() {
       abi: ERC20_ABI,
       functionName: 'approve',
       args: [VAULT_ADDRESS, parsedAmount],
+      chainId: BASE_SEPOLIA_CHAIN_ID, // Force Base Sepolia
     });
   };
 
@@ -105,6 +106,7 @@ export function DepositForm() {
       abi: TREASURY_VAULT_ABI,
       functionName: 'deposit',
       args: [parsedAmount],
+      chainId: BASE_SEPOLIA_CHAIN_ID, // Force Base Sepolia
     });
   };
 

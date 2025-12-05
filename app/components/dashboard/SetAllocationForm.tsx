@@ -12,7 +12,7 @@ import { Loader2, Check, AlertCircle, Lock, Target } from 'lucide-react';
 
 import { useVault } from '@/hooks/useVault';
 import { useRiskSummary } from '@/hooks/useRiskSummary';
-import { TREASURY_VAULT_ABI } from '@/lib/contracts';
+import { TREASURY_VAULT_ABI, BASE_SEPOLIA_CHAIN_ID } from '@/lib/contracts';
 
 const VAULT_ADDRESS = process.env.NEXT_PUBLIC_TREASURY_VAULT_BASE_ADDRESS as `0x${string}`;
 
@@ -75,6 +75,7 @@ export function SetAllocationForm() {
       abi: TREASURY_VAULT_ABI,
       functionName: 'setTargetAllocation',
       args: [baseBps, solanaBps],
+      chainId: BASE_SEPOLIA_CHAIN_ID, // Force Base Sepolia
     });
   };
 

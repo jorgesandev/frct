@@ -12,7 +12,7 @@ import { Loader2, Check, AlertCircle, Lock, RefreshCw, ArrowRightLeft } from 'lu
 
 import { useVault } from '@/hooks/useVault';
 import { useRiskSummary } from '@/hooks/useRiskSummary';
-import { TREASURY_VAULT_ABI } from '@/lib/contracts';
+import { TREASURY_VAULT_ABI, BASE_SEPOLIA_CHAIN_ID } from '@/lib/contracts';
 
 const VAULT_ADDRESS = process.env.NEXT_PUBLIC_TREASURY_VAULT_BASE_ADDRESS as `0x${string}`;
 
@@ -68,6 +68,7 @@ export function RebalanceButton() {
       abi: TREASURY_VAULT_ABI,
       functionName: 'planRebalance',
       args: [newBaseBps, newSolanaBps],
+      chainId: BASE_SEPOLIA_CHAIN_ID, // Force Base Sepolia
     });
   };
 
