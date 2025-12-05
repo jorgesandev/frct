@@ -18,7 +18,8 @@ import {
   Activity,
   Settings,
   ArrowDownToLine,
-  ArrowUpFromLine
+  ArrowUpFromLine,
+  Send
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -31,10 +32,12 @@ import {
   DepositForm, 
   WithdrawForm,
   SetAllocationForm,
-  RebalanceButton 
+  RebalanceButton,
+  PayoutForm,
+  PayoutHistory
 } from '@/components/dashboard';
 
-type Tab = 'overview' | 'deposit' | 'withdraw' | 'settings';
+type Tab = 'overview' | 'deposit' | 'withdraw' | 'payout' | 'settings';
 
 export default function Dashboard() {
   const { address, isConnected } = useAccount();
@@ -53,6 +56,7 @@ export default function Dashboard() {
     { id: 'overview' as Tab, label: 'Overview', icon: Activity },
     { id: 'deposit' as Tab, label: 'Deposit', icon: ArrowDownToLine },
     { id: 'withdraw' as Tab, label: 'Withdraw', icon: ArrowUpFromLine, ownerOnly: true },
+    { id: 'payout' as Tab, label: 'Payout', icon: Send, ownerOnly: true },
     { id: 'settings' as Tab, label: 'Settings', icon: Settings, ownerOnly: true },
   ];
 
@@ -252,6 +256,13 @@ export default function Dashboard() {
       {activeTab === 'withdraw' && vault.isOwner && (
         <div className="max-w-md mx-auto">
           <WithdrawForm />
+        </div>
+      )}
+
+      {activeTab === 'payout' && vault.isOwner && (
+        <div className="max-w-lg mx-auto space-y-6">
+          <PayoutForm />
+          <PayoutHistory />
         </div>
       )}
 
