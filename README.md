@@ -4,6 +4,25 @@
 
 ---
 
+## Deployed Contracts
+
+| Network | Contract | Address | Explorer |
+|---------|----------|---------|----------|
+| **Base Sepolia** | TreasuryVaultBase | `0x36D4d2eaDE4BD7eC4aDa5660F1B5CCfe6a25f830` | [View on Basescan](https://sepolia.basescan.org/address/0x36d4d2eade4bd7ec4ada5660f1b5ccfe6a25f830) |
+| Base Sepolia | USDC (Circle) | `0x036CbD53842c5426634e7929541eC2318f3dCF7e` | [View on Basescan](https://sepolia.basescan.org/address/0x036CbD53842c5426634e7929541eC2318f3dCF7e) |
+| Solana Devnet | TreasuryVaultSolana | `TBD` | - |
+
+**Contract Status:** Deployed and Verified
+
+---
+
+## Live Demo
+
+- **Frontend:** [TBD - Vercel deployment]
+- **Risk API:** `/api/risk-summary` - Polymarket-powered risk scoring
+
+---
+
 ## What is FRCT?
 
 FRCT automates treasury allocation decisions for DAOs and crypto-native startups using prediction markets.
@@ -16,11 +35,11 @@ FRCT automates treasury allocation decisions for DAOs and crypto-native startups
 
 ## Features
 
-- 🔗 **Multi-chain Treasury View** – See USDC balances on Base and Solana in one place
-- 📊 **Polymarket-Powered Risk Engine** – Real-time risk scores from prediction market data
-- ⚖️ **Smart Allocation** – Defensive/Neutral/Aggressive regime recommendations
-- 🔄 **Cross-Chain Rebalancing** – Move USDC via Circle CCTP with one click
-- 💸 **Integrated Payouts** – Withdraw and trigger Circle payments from the same cockpit
+- **Multi-chain Treasury View** – See USDC balances on Base and Solana in one place
+- **Polymarket-Powered Risk Engine** – Real-time risk scores from prediction market data
+- **Smart Allocation** – Defensive/Neutral/Aggressive regime recommendations
+- **Cross-Chain Rebalancing** – Move USDC via Circle CCTP with one click
+- **Integrated Payouts** – Withdraw and trigger Circle payments from the same cockpit
 
 ---
 
@@ -66,6 +85,64 @@ FRCT automates treasury allocation decisions for DAOs and crypto-native startups
 
 ---
 
+## Smart Contracts
+
+### TreasuryVaultBase (Base/EVM)
+
+**Address:** `0x36D4d2eaDE4BD7eC4aDa5660F1B5CCfe6a25f830`
+
+```solidity
+// Core functions
+deposit(uint256 amount)                              // Deposit USDC into vault
+withdraw(uint256 amount, address to)                 // Withdraw USDC (owner only)
+setTargetAllocation(uint16 baseBps, uint16 solanaBps) // Set target allocation
+planRebalance(uint16 newBaseBps, uint16 newSolBps)   // Plan rebalance (emits event)
+
+// View functions
+getBaseBalance() returns (uint256)                   // Current USDC balance
+getTotalValue() returns (uint256)                    // Total treasury value
+getCurrentAllocation() returns (uint16, uint16)      // Target allocation in bps
+getActualAllocation() returns (uint16, uint16)       // Actual allocation in bps
+needsRebalance(uint16 thresholdBps) returns (bool)   // Check if rebalance needed
+```
+
+### TreasuryVaultSolana (Anchor)
+
+**Program ID:** `TBD`
+
+```rust
+// Instructions
+init_vault(authority: Pubkey)
+deposit(amount: u64)
+withdraw(amount: u64, to: Pubkey)
+```
+
+---
+
+## Risk Engine
+
+The risk engine fetches real-time data from Polymarket and calculates a risk score:
+
+### Markets Tracked
+
+| Market | Weight | Risk Direction |
+|--------|--------|----------------|
+| US Recession 2026 | 25% | Higher probability = more risk |
+| US Recession 2025 | 20% | Higher probability = more risk |
+| Fed Rate Cuts 2025 | 15% | Fewer cuts = more risk |
+| Bitcoin Price 2025 | 25% | Lower bull probability = more risk |
+| Ethereum Price 2025 | 15% | Lower bull probability = more risk |
+
+### Regime Classification
+
+| Risk Score | Regime | Base % | Solana % |
+|------------|--------|--------|----------|
+| 0-30 | Aggressive | 30% | 70% |
+| 31-60 | Neutral | 50% | 50% |
+| 61-100 | Defensive | 70% | 30% |
+
+---
+
 ## Quick Start
 
 ### Prerequisites
@@ -97,7 +174,7 @@ NEXT_PUBLIC_ONCHAINKIT_API_KEY=your_coinbase_key
 NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=your_wc_project_id
 
 # Contracts
-NEXT_PUBLIC_TREASURY_VAULT_BASE_ADDRESS=0x...
+NEXT_PUBLIC_TREASURY_VAULT_BASE_ADDRESS=0x36D4d2eaDE4BD7eC4aDa5660F1B5CCfe6a25f830
 
 # Polymarket
 POLYMARKET_GAMMA_URL=https://gamma-api.polymarket.com
@@ -124,67 +201,67 @@ frct/
 │   │       ├── risk-summary/     # Polymarket risk engine
 │   │       └── circle-payout/    # Circle payments
 │   ├── components/               # React components
-│   └── lib/                      # Utilities and hooks
+│   ├── lib/                      # Utilities and hooks
+│   ├── config/                   # Configuration files
+│   └── types/                    # TypeScript types
 ├── contracts/                    # Solidity contracts (Foundry)
 │   ├── src/
 │   │   └── TreasuryVaultBase.sol
-│   └── test/
+│   ├── test/
+│   │   └── TreasuryVaultBase.t.sol  # 28 passing tests
+│   └── script/
+│       └── Deploy.s.sol
 ├── anchor-programs/              # Solana programs (Anchor)
 │   └── treasury_vault_solana/
 ├── scripts/                      # Deployment scripts
 └── docs/                         # Additional documentation
+    ├── ARCHITECTURE.md
+    ├── RISK_MODEL.md
+    └── SUBMISSION_CHECKLIST.md
 ```
 
 ---
 
-## Smart Contracts
+## Development Progress
 
-### TreasuryVaultBase (Base/EVM)
+### Completed
 
-```solidity
-// Core functions
-deposit(uint256 amount)
-withdraw(uint256 amount, address to)
-setTargetAllocation(uint16 baseBps, uint16 solanaBps)
-planRebalance(uint16 newBaseBps, uint16 newSolBps)
-```
+- [x] Phase 0: Project setup, tooling, API keys
+- [x] Phase 1: Risk Engine with Polymarket integration
+- [x] Phase 2: Base smart contract (deployed & verified)
 
-### TreasuryVaultSolana (Anchor)
+### In Progress
 
-```rust
-// Instructions
-init_vault(authority: Pubkey)
-deposit(amount: u64)
-withdraw(amount: u64, to: Pubkey)
-```
+- [ ] Phase 3: Frontend foundation (OnchainKit, dashboard)
 
----
+### Pending
 
-## Deployed Addresses
-
-| Network | Contract | Address |
-|---------|----------|---------|
-| Base Sepolia | TreasuryVaultBase | `TBD` |
-| Solana Devnet | TreasuryVaultSolana | `TBD` |
+- [ ] Phase 4: Dashboard components
+- [ ] Phase 5: Circle Payments integration
+- [ ] Phase 6: Solana vault program
+- [ ] Phase 7: CCTP integration (stretch)
+- [ ] Phase 8: Polish & Vercel deployment
 
 ---
 
-## MVP Checklist
+## Testing
 
-- [ ] Base vault contract deployed
-- [ ] Dashboard with wallet connect
-- [ ] Base + Solana balance display
-- [ ] Polymarket risk engine working
-- [ ] Target allocation updates
-- [ ] Payout functionality
-- [ ] Vercel deployment
+### Smart Contract Tests (Foundry)
 
-### Stretch Goals
+```bash
+cd contracts
+forge test -vv
+```
 
-- [ ] Full CCTP integration (burn/mint flow)
-- [ ] Circle Payments with status tracking
-- [ ] Audit logging
-- [ ] Multi-sig governance
+**Result:** 28 tests passing
+
+### Risk Engine
+
+```bash
+cd app
+pnpm dev
+# Visit http://localhost:3000/api/risk-summary
+```
 
 ---
 
