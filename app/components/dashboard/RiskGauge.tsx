@@ -18,7 +18,7 @@ export function RiskGauge({ compact = false }: RiskGaugeProps) {
 
   if (isLoading) {
     return (
-      <div className={`card ${compact ? 'p-4' : 'p-6'}`}>
+      <div className={`card ${compact ? 'p-4' : 'p-4 sm:p-6'}`}>
         <div className="flex items-center justify-center h-32">
           <div className="animate-pulse text-zinc-500">Loading risk data...</div>
         </div>
@@ -28,7 +28,7 @@ export function RiskGauge({ compact = false }: RiskGaugeProps) {
 
   if (!riskData) {
     return (
-      <div className={`card ${compact ? 'p-4' : 'p-6'}`}>
+      <div className={`card ${compact ? 'p-4' : 'p-4 sm:p-6'}`}>
         <div className="flex items-center justify-center h-32 text-zinc-500">
           Unable to load risk data
         </div>
@@ -41,6 +41,32 @@ export function RiskGauge({ compact = false }: RiskGaugeProps) {
   // Calculate needle rotation: -90deg (0) to 90deg (100)
   const needleRotation = ((riskScore / 100) * 180) - 90;
 
+  // SVG arc parameters
+  const size = 200;
+  const strokeWidth = 20;
+  const radius = (size - strokeWidth) / 2 - 10;
+  const centerX = size / 2;
+  const centerY = size / 2;
+
+  // Create arc path for semi-circle (bottom half)
+  const createArc = (startAngle: number, endAngle: number) => {
+    const startRad = (startAngle * Math.PI) / 180;
+    const endRad = (endAngle * Math.PI) / 180;
+    
+    const x1 = centerX + radius * Math.cos(startRad);
+    const y1 = centerY + radius * Math.sin(startRad);
+    const x2 = centerX + radius * Math.cos(endRad);
+    const y2 = centerY + radius * Math.sin(endRad);
+    
+    const largeArcFlag = endAngle - startAngle > 180 ? 1 : 0;
+    
+    return `M ${x1} ${y1} A ${radius} ${radius} 0 ${largeArcFlag} 1 ${x2} ${y2}`;
+  };
+
+  // Active arc endpoint based on score
+  const scoreAngle = 180 + (riskScore / 100) * 180; // 180 to 360 degrees
+  const activeArc = createArc(180, Math.min(scoreAngle, 360));
+
   return (
     <div className={`card ${compact ? 'p-4' : 'p-4 sm:p-6'}`}>
       <div className="flex items-center justify-between mb-3 sm:mb-4">
@@ -51,65 +77,83 @@ export function RiskGauge({ compact = false }: RiskGaugeProps) {
       {/* Gauge Container */}
       <div className="relative flex flex-col items-center">
         {/* Semi-circle Gauge */}
-        <div className="relative w-40 h-20 sm:w-48 sm:h-24 overflow-hidden">
-          {/* Background arc segments */}
+        <div className="relative w-44 h-24 sm:w-52 sm:h-28">
           <svg 
-            viewBox="0 0 200 100" 
+            viewBox="0 0 200 110" 
             className="w-full h-full"
-            style={{ transform: 'rotate(0deg)' }}
           >
-            {/* Green zone (0-35) */}
+            {/* Background arc - Gray */}
             <path
-              d="M 10 100 A 90 90 0 0 1 73 23"
+              d={createArc(180, 360)}
+              fill="none"
+              stroke="rgba(63, 63, 70, 0.5)"
+              strokeWidth={strokeWidth}
+              strokeLinecap="round"
+            />
+            
+            {/* Green zone (0-35%) */}
+            <path
+              d={createArc(180, 243)}
               fill="none"
               stroke="rgba(34, 197, 94, 0.3)"
-              strokeWidth="16"
+              strokeWidth={strokeWidth}
               strokeLinecap="round"
             />
-            {/* Yellow zone (35-65) */}
+            
+            {/* Yellow zone (35-65%) */}
             <path
-              d="M 73 23 A 90 90 0 0 1 127 23"
+              d={createArc(243, 297)}
               fill="none"
               stroke="rgba(245, 158, 11, 0.3)"
-              strokeWidth="16"
+              strokeWidth={strokeWidth}
               strokeLinecap="round"
             />
-            {/* Red zone (65-100) */}
+            
+            {/* Red zone (65-100%) */}
             <path
-              d="M 127 23 A 90 90 0 0 1 190 100"
+              d={createArc(297, 360)}
               fill="none"
               stroke="rgba(239, 68, 68, 0.3)"
-              strokeWidth="16"
+              strokeWidth={strokeWidth}
               strokeLinecap="round"
             />
             
             {/* Active arc - shows current score */}
-            <path
-              d={`M 10 100 A 90 90 0 ${riskScore > 50 ? 1 : 0} 1 ${getArcEndpoint(riskScore)}`}
-              fill="none"
-              stroke={getStrokeColor(riskScore)}
-              strokeWidth="16"
-              strokeLinecap="round"
-              className="transition-all duration-1000"
-            />
-          </svg>
+            {riskScore > 0 && (
+              <path
+                d={activeArc}
+                fill="none"
+                stroke={getStrokeColor(riskScore)}
+                strokeWidth={strokeWidth}
+                strokeLinecap="round"
+                className="transition-all duration-1000"
+              />
+            )}
 
-          {/* Needle */}
-          <div 
-            className="absolute bottom-0 left-1/2 origin-bottom transition-transform duration-1000 ease-out"
-            style={{ 
-              transform: `translateX(-50%) rotate(${needleRotation}deg)`,
-              width: '3px',
-              height: '55px',
-            }}
-          >
-            <div className="w-full h-full bg-gradient-to-t from-zinc-400 to-zinc-200 rounded-full" />
-            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-2.5 h-2.5 bg-zinc-200 rounded-full" />
-          </div>
+            {/* Needle */}
+            <g transform={`rotate(${needleRotation}, ${centerX}, ${centerY})`}>
+              <line
+                x1={centerX}
+                y1={centerY}
+                x2={centerX}
+                y2={centerY - radius + 15}
+                stroke="white"
+                strokeWidth="3"
+                strokeLinecap="round"
+                className="transition-all duration-1000"
+              />
+              <circle
+                cx={centerX}
+                cy={centerY}
+                r="6"
+                fill="white"
+              />
+            </g>
+          </svg>
         </div>
 
         {/* Score Display */}
-        <div className="mt-3 sm:mt-4 text-center">
+        <div className="mt-2 sm:mt-3 text-center">
           <span className={`text-4xl sm:text-5xl font-bold font-mono ${getRiskScoreColor(riskScore)}`}>
             {riskScore}
           </span>
@@ -133,17 +177,8 @@ export function RiskGauge({ compact = false }: RiskGaugeProps) {
   );
 }
 
-function getArcEndpoint(score: number): string {
-  // Convert score (0-100) to angle (0-180 degrees, starting from left)
-  const angle = (score / 100) * Math.PI;
-  const x = 100 - 90 * Math.cos(angle);
-  const y = 100 - 90 * Math.sin(angle);
-  return `${x.toFixed(1)} ${y.toFixed(1)}`;
-}
-
 function getStrokeColor(score: number): string {
   if (score < 35) return 'rgb(34, 197, 94)'; // green
   if (score < 65) return 'rgb(245, 158, 11)'; // yellow
   return 'rgb(239, 68, 68)'; // red
 }
-
