@@ -1,0 +1,26 @@
+{
+  "name": "frct",
+  "version": "1.0.0",
+  "description": "Forecast-Routed Cross-Chain Treasury - An onchain CFO that routes USDC between Base and Solana using Polymarket forecasts",
+  "private": true,
+  "scripts": {
+    "dev": "cd app && pnpm dev",
+    "build": "cd app && pnpm build",
+    "start": "cd app && pnpm start",
+    "lint": "cd app && pnpm lint"
+  },
+  "keywords": [
+    "treasury",
+    "defi",
+    "cross-chain",
+    "usdc",
+    "base",
+    "solana",
+    "polymarket",
+    "circle",
+    "cctp"
+  ],
+  "author": "",
+  "license": "MIT",
+  "packageManager": "pnpm@10.24.0"
+}

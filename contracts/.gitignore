@@ -1,0 +1,21 @@
+# Foundry
+out/
+cache/
+broadcast/
+lib/
+*.sol
+
+# Environment
+.env
+.env.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+

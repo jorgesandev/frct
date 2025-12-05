@@ -1,0 +1,40 @@
+# =============================================================================
+# FRCT Root .gitignore
+# =============================================================================
+
+# Internal planning and progress tracking (not needed for public repo)
+PLAN.md
+IMPLEMENTATION_PROGRESS.md
+
+# Environment files with sensitive keys
+.env
+.env.local
+.env*.local
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Build outputs
+dist/
+build/
+out/
+.next/
+
+# Dependencies (handled by app/.gitignore, but adding here for clarity)
+node_modules/
+
