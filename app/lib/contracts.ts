@@ -255,6 +255,7 @@ export const TREASURY_VAULT_ABI = [
 
 /**
  * ERC20 ABI (minimal for USDC interactions)
+ * Also exported as USDC_ABI for convenience
  */
 export const ERC20_ABI = [
   {
@@ -299,4 +300,7 @@ export const ERC20_ABI = [
     stateMutability: 'view',
   },
 ] as const;
+
+// Alias for convenience
+export const USDC_ABI = ERC20_ABI;
 

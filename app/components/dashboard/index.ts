@@ -10,4 +10,5 @@ export { WithdrawForm } from './WithdrawForm';
 export { SetAllocationForm } from './SetAllocationForm';
 export { RebalanceButton } from './RebalanceButton';
 export { PayoutForm, PayoutHistory } from './PayoutForm';
+export { BridgeModal } from './BridgeModal';
 
