@@ -42,16 +42,16 @@ export function RiskGauge({ compact = false }: RiskGaugeProps) {
   const needleRotation = ((riskScore / 100) * 180) - 90;
 
   return (
-    <div className={`card ${compact ? 'p-4' : 'p-6'}`}>
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold text-zinc-100">Risk Score</h3>
-        <Activity className="h-5 w-5 text-teal-400" />
+    <div className={`card ${compact ? 'p-4' : 'p-4 sm:p-6'}`}>
+      <div className="flex items-center justify-between mb-3 sm:mb-4">
+        <h3 className="text-base sm:text-lg font-semibold text-zinc-100">Risk Score</h3>
+        <Activity className="h-4 w-4 sm:h-5 sm:w-5 text-teal-400" />
       </div>
 
       {/* Gauge Container */}
       <div className="relative flex flex-col items-center">
         {/* Semi-circle Gauge */}
-        <div className="relative w-48 h-24 overflow-hidden">
+        <div className="relative w-40 h-20 sm:w-48 sm:h-24 overflow-hidden">
           {/* Background arc segments */}
           <svg 
             viewBox="0 0 200 100" 
@@ -99,32 +99,32 @@ export function RiskGauge({ compact = false }: RiskGaugeProps) {
             className="absolute bottom-0 left-1/2 origin-bottom transition-transform duration-1000 ease-out"
             style={{ 
               transform: `translateX(-50%) rotate(${needleRotation}deg)`,
-              width: '4px',
-              height: '70px',
+              width: '3px',
+              height: '55px',
             }}
           >
             <div className="w-full h-full bg-gradient-to-t from-zinc-400 to-zinc-200 rounded-full" />
-            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-3 h-3 bg-zinc-200 rounded-full" />
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-2.5 h-2.5 bg-zinc-200 rounded-full" />
           </div>
         </div>
 
         {/* Score Display */}
-        <div className="mt-4 text-center">
-          <span className={`text-5xl font-bold font-mono ${getRiskScoreColor(riskScore)}`}>
+        <div className="mt-3 sm:mt-4 text-center">
+          <span className={`text-4xl sm:text-5xl font-bold font-mono ${getRiskScoreColor(riskScore)}`}>
             {riskScore}
           </span>
-          <span className="text-xl text-zinc-500 ml-1">/100</span>
+          <span className="text-lg sm:text-xl text-zinc-500 ml-1">/100</span>
         </div>
 
         {/* Regime Badge */}
-        <div className="mt-3">
-          <span className={`badge ${getRegimeBadgeClass(regime)}`}>
+        <div className="mt-2 sm:mt-3">
+          <span className={`badge ${getRegimeBadgeClass(regime)} text-xs sm:text-sm`}>
             {regime}
           </span>
         </div>
 
         {/* Scale Labels */}
-        <div className="flex justify-between w-full mt-4 text-xs text-zinc-500">
+        <div className="flex justify-between w-full mt-3 sm:mt-4 text-[10px] sm:text-xs text-zinc-500">
           <span>Low Risk</span>
           <span>High Risk</span>
         </div>

@@ -61,23 +61,23 @@ export default function Dashboard() {
   ];
 
   return (
-    <div className="mx-auto max-w-7xl px-6 py-12">
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 py-8 sm:py-12">
       {/* Header */}
-      <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="mb-6 sm:mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-zinc-100">Treasury Dashboard</h1>
-          <p className="mt-1 text-zinc-400">Monitor and manage your FRCT treasury</p>
+          <h1 className="text-2xl sm:text-3xl font-bold text-zinc-100">Treasury Dashboard</h1>
+          <p className="mt-1 text-sm sm:text-base text-zinc-400">Monitor and manage your FRCT treasury</p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
           <button
             onClick={handleRefresh}
-            className="btn-secondary flex items-center gap-2 !py-2 !px-3"
+            className="btn-secondary flex items-center gap-2 !py-2 !px-3 text-sm"
           >
             <RefreshCw className={`h-4 w-4 ${vaultLoading || riskLoading ? 'animate-spin' : ''}`} />
-            Refresh
+            <span className="hidden xs:inline">Refresh</span>
           </button>
           {vault.isOwner && (
-            <span className="badge badge-aggressive">
+            <span className="badge badge-aggressive text-xs sm:text-sm">
               <CheckCircle2 className="h-3 w-3" />
               Owner
             </span>
@@ -94,43 +94,45 @@ export default function Dashboard() {
       )}
 
       {/* Tab Navigation */}
-      <div className="mb-8 flex gap-2 overflow-x-auto pb-2">
-        {tabs.map((tab) => {
-          const isHidden = tab.ownerOnly && !vault.isOwner;
-          if (isHidden) return null;
-          
-          return (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all whitespace-nowrap
-                ${activeTab === tab.id 
-                  ? 'bg-teal-500/10 text-teal-400 border border-teal-500/30' 
-                  : 'text-zinc-400 hover:bg-zinc-800/50 hover:text-zinc-100 border border-transparent'
-                }`}
-            >
-              <tab.icon className="h-4 w-4" />
-              {tab.label}
-            </button>
-          );
-        })}
+      <div className="mb-6 sm:mb-8 -mx-4 sm:mx-0 px-4 sm:px-0">
+        <div className="flex gap-1 sm:gap-2 overflow-x-auto pb-2 scrollbar-hide">
+          {tabs.map((tab) => {
+            const isHidden = tab.ownerOnly && !vault.isOwner;
+            if (isHidden) return null;
+            
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all whitespace-nowrap flex-shrink-0
+                  ${activeTab === tab.id 
+                    ? 'bg-teal-500/10 text-teal-400 border border-teal-500/30' 
+                    : 'text-zinc-400 hover:bg-zinc-800/50 hover:text-zinc-100 border border-transparent'
+                  }`}
+              >
+                <tab.icon className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                {tab.label}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       {/* Tab Content */}
       {activeTab === 'overview' && (
         <>
           {/* Main Stats Grid */}
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mb-8">
+          <div className="grid gap-4 sm:gap-6 grid-cols-2 lg:grid-cols-4 mb-6 sm:mb-8">
             {/* Total Value */}
-            <div className="card p-6 card-glow">
-              <div className="flex items-center justify-between mb-4">
-                <span className="stat-label">Total Value</span>
-                <Wallet className="h-5 w-5 text-teal-400" />
+            <div className="card p-4 sm:p-6 card-glow col-span-2 sm:col-span-1">
+              <div className="flex items-center justify-between mb-3 sm:mb-4">
+                <span className="stat-label text-xs sm:text-sm">Total Value</span>
+                <Wallet className="h-4 w-4 sm:h-5 sm:w-5 text-teal-400" />
               </div>
-              <div className="stat-value text-teal-400">
+              <div className="stat-value text-teal-400 text-2xl sm:text-3xl">
                 ${vaultLoading ? '...' : formatted.totalValueFormatted}
               </div>
-              <span className="text-sm text-zinc-500 mt-1 block">USDC</span>
+              <span className="text-xs sm:text-sm text-zinc-500 mt-1 block">USDC</span>
             </div>
 
             {/* Chain Balances */}
@@ -148,16 +150,16 @@ export default function Dashboard() {
             />
 
             {/* Risk Score Quick View */}
-            <div className="card p-6">
-              <div className="flex items-center justify-between mb-4">
-                <span className="stat-label">Risk Score</span>
-                <Activity className="h-5 w-5 text-teal-400" />
+            <div className="card p-4 sm:p-6">
+              <div className="flex items-center justify-between mb-3 sm:mb-4">
+                <span className="stat-label text-xs sm:text-sm">Risk Score</span>
+                <Activity className="h-4 w-4 sm:h-5 sm:w-5 text-teal-400" />
               </div>
-              <div className="stat-value">
+              <div className="stat-value text-2xl sm:text-3xl">
                 {riskLoading ? '...' : riskData?.riskScore ?? '--'}
               </div>
               {riskData && (
-                <span className={`badge ${getRegimeBadgeClass(riskData.regime)} mt-2`}>
+                <span className={`badge ${getRegimeBadgeClass(riskData.regime)} mt-2 text-xs`}>
                   {riskData.regime}
                 </span>
               )}
@@ -165,7 +167,7 @@ export default function Dashboard() {
           </div>
 
           {/* Two Column Layout */}
-          <div className="grid gap-6 lg:grid-cols-2 mb-8">
+          <div className="grid gap-4 sm:gap-6 md:grid-cols-2 mb-6 sm:mb-8">
             {/* Risk Gauge */}
             <RiskGauge />
             
@@ -175,23 +177,23 @@ export default function Dashboard() {
 
           {/* Rebalance Button (if owner) */}
           {vault.isOwner && (
-            <div className="mb-8">
+            <div className="mb-6 sm:mb-8">
               <RebalanceButton />
             </div>
           )}
 
           {/* Quick Actions */}
-          <div className="grid gap-4 sm:grid-cols-3">
-            <Link href="/risk" className="card p-4 hover:border-teal-500/50 transition-all group">
+          <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+            <Link href="/risk" className="card p-3 sm:p-4 hover:border-teal-500/50 transition-all group">
               <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-teal-500/10 text-teal-400 group-hover:bg-teal-500/20 transition-colors">
-                  <Activity className="h-5 w-5" />
+                <div className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-lg bg-teal-500/10 text-teal-400 group-hover:bg-teal-500/20 transition-colors flex-shrink-0">
+                  <Activity className="h-4 w-4 sm:h-5 sm:w-5" />
                 </div>
-                <div>
-                  <p className="font-medium text-zinc-100">Risk Engine</p>
-                  <p className="text-sm text-zinc-500">View full analysis</p>
+                <div className="min-w-0 flex-1">
+                  <p className="font-medium text-zinc-100 text-sm sm:text-base">Risk Engine</p>
+                  <p className="text-xs sm:text-sm text-zinc-500 truncate">View full analysis</p>
                 </div>
-                <ArrowUpRight className="h-4 w-4 text-zinc-500 ml-auto group-hover:text-teal-400 transition-colors" />
+                <ArrowUpRight className="h-4 w-4 text-zinc-500 ml-auto group-hover:text-teal-400 transition-colors flex-shrink-0" />
               </div>
             </Link>
 
@@ -199,29 +201,29 @@ export default function Dashboard() {
               href={`https://sepolia.basescan.org/address/${vaultAddress}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="card p-4 hover:border-teal-500/50 transition-all group"
+              className="card p-3 sm:p-4 hover:border-teal-500/50 transition-all group"
             >
               <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-500/10 text-blue-400 group-hover:bg-blue-500/20 transition-colors">
-                  <ExternalLink className="h-5 w-5" />
+                <div className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-lg bg-blue-500/10 text-blue-400 group-hover:bg-blue-500/20 transition-colors flex-shrink-0">
+                  <ExternalLink className="h-4 w-4 sm:h-5 sm:w-5" />
                 </div>
-                <div>
-                  <p className="font-medium text-zinc-100">View Contract</p>
-                  <p className="text-sm text-zinc-500">Basescan Explorer</p>
+                <div className="min-w-0 flex-1">
+                  <p className="font-medium text-zinc-100 text-sm sm:text-base">View Contract</p>
+                  <p className="text-xs sm:text-sm text-zinc-500 truncate">Basescan Explorer</p>
                 </div>
-                <ArrowUpRight className="h-4 w-4 text-zinc-500 ml-auto group-hover:text-blue-400 transition-colors" />
+                <ArrowUpRight className="h-4 w-4 text-zinc-500 ml-auto group-hover:text-blue-400 transition-colors flex-shrink-0" />
               </div>
             </a>
 
             {isConnected && (
-              <div className="card p-4">
+              <div className="card p-3 sm:p-4">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-800 text-zinc-400">
-                    <Wallet className="h-5 w-5" />
+                  <div className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-lg bg-zinc-800 text-zinc-400 flex-shrink-0">
+                    <Wallet className="h-4 w-4 sm:h-5 sm:w-5" />
                   </div>
-                  <div>
-                    <p className="font-medium text-zinc-100">Your USDC</p>
-                    <p className="text-sm text-teal-400 font-mono">
+                  <div className="min-w-0 flex-1">
+                    <p className="font-medium text-zinc-100 text-sm sm:text-base">Your USDC</p>
+                    <p className="text-xs sm:text-sm text-teal-400 font-mono truncate">
                       ${userUsdcBalance}
                     </p>
                   </div>

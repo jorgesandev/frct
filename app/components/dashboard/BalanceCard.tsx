@@ -79,24 +79,24 @@ export function ChainBalanceCard({ chain, balance, percent, loading }: ChainBala
   const isBase = chain === 'base';
   
   return (
-    <div className="card p-6">
-      <div className="flex items-center justify-between mb-4">
-        <span className="stat-label">{isBase ? 'Base Balance' : 'Solana Balance'}</span>
-        <div className={`flex h-6 w-6 items-center justify-center rounded-full ${
+    <div className="card p-4 sm:p-6">
+      <div className="flex items-center justify-between mb-3 sm:mb-4">
+        <span className="stat-label text-xs sm:text-sm">{isBase ? 'Base Balance' : 'Solana Balance'}</span>
+        <div className={`flex h-5 w-5 sm:h-6 sm:w-6 items-center justify-center rounded-full ${
           isBase 
             ? 'bg-blue-500' 
             : 'bg-gradient-to-br from-purple-500 to-teal-400'
         }`}>
-          <span className="text-xs font-bold text-white">{isBase ? 'B' : 'S'}</span>
+          <span className="text-[10px] sm:text-xs font-bold text-white">{isBase ? 'B' : 'S'}</span>
         </div>
       </div>
       
-      <div className="stat-value">
+      <div className="stat-value text-xl sm:text-2xl lg:text-3xl">
         ${loading ? '...' : balance}
       </div>
       
       <div className="mt-2 flex items-center gap-2">
-        <div className="flex-1 h-1.5 rounded-full bg-zinc-800 overflow-hidden">
+        <div className="flex-1 h-1 sm:h-1.5 rounded-full bg-zinc-800 overflow-hidden">
           <div 
             className={`h-full transition-all duration-500 ${
               isBase ? 'bg-blue-500' : 'bg-gradient-to-r from-purple-500 to-teal-400'
@@ -104,13 +104,13 @@ export function ChainBalanceCard({ chain, balance, percent, loading }: ChainBala
             style={{ width: `${percent}%` }}
           />
         </div>
-        <span className="text-sm text-zinc-400 font-mono w-14 text-right">
+        <span className="text-xs sm:text-sm text-zinc-400 font-mono w-12 sm:w-14 text-right">
           {percent.toFixed(1)}%
         </span>
       </div>
       
       {!isBase && (
-        <span className="text-xs text-zinc-500 mt-2 block">(simulated)</span>
+        <span className="text-[10px] sm:text-xs text-zinc-500 mt-2 block">(simulated)</span>
       )}
     </div>
   );
