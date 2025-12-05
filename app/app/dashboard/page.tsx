@@ -49,8 +49,13 @@ export default function Dashboard() {
   
   const [activeTab, setActiveTab] = useState<Tab>('overview');
 
-  // Calculate real total value (Base + Solana)
-  const solanaBalanceNum = parseFloat(solanaBalance) || 0;
+  // Calculate total value (Real Solana if available, else simulated from Base contract)
+  const realSolanaBalance = parseFloat(solanaBalance) || 0;
+  const simulatedSolanaBalance = parseFloat(formatted.solanaBalanceFormatted.replace(/,/g, '')) || 0;
+  // Use real Solana balance if > 0, otherwise fall back to simulated
+  const solanaBalanceNum = realSolanaBalance > 0 ? realSolanaBalance : simulatedSolanaBalance;
+  const isRealSolanaBalance = realSolanaBalance > 0;
+  
   const baseBalanceNum = parseFloat(formatted.baseBalanceFormatted.replace(/,/g, '')) || 0;
   const realTotalValue = baseBalanceNum + solanaBalanceNum;
   const realBasePercent = realTotalValue > 0 ? (baseBalanceNum / realTotalValue) * 100 : 50;
@@ -158,7 +163,7 @@ export default function Dashboard() {
               balance={solanaBalanceNum.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               percent={realSolanaPercent}
               loading={solanaLoading}
-              isLive={true}
+              isLive={isRealSolanaBalance}
             />
 
             {/* Risk Score Quick View */}

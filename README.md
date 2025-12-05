@@ -12,6 +12,7 @@
 | Base Sepolia | USDC (Circle) | `0x036CbD53842c5426634e7929541eC2318f3dCF7e` | [View on Basescan](https://sepolia.basescan.org/address/0x036CbD53842c5426634e7929541eC2318f3dCF7e) |
 | **Solana Devnet** | TreasuryVaultSolana | `3V64EHasPzNu7pzFA2STpWJrSgEVAAdPbeuFQQ53SrqL` | [View on Solana Explorer](https://explorer.solana.com/address/3V64EHasPzNu7pzFA2STpWJrSgEVAAdPbeuFQQ53SrqL?cluster=devnet) |
 | Solana Devnet | Vault PDA | `J7c13sZsYs5dDXrFDpPMunZGLdjsQfSDFphA67XQaGJf` | [View on Solana Explorer](https://explorer.solana.com/address/J7c13sZsYs5dDXrFDpPMunZGLdjsQfSDFphA67XQaGJf?cluster=devnet) |
+| Solana Devnet | Vault Token Account | `3tg7yaecTqDSRJufwcrbiSqtJzeyiKKmLQzdkr7sgikx` | [View on Solana Explorer](https://explorer.solana.com/address/3tg7yaecTqDSRJufwcrbiSqtJzeyiKKmLQzdkr7sgikx?cluster=devnet) |
 
 **Contract Status:** All contracts deployed and verified
 

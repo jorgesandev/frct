@@ -119,7 +119,7 @@ export function ChainBalanceCard({ chain, balance, percent, loading, isLive = tr
       </div>
       
       <span className="text-[10px] sm:text-xs text-zinc-500 mt-2 block">
-        {isBase ? 'Base Sepolia' : 'Solana Devnet'}
+        {isBase ? 'Base Sepolia' : isLive ? 'Solana Devnet' : 'Simulated'}
       </span>
     </div>
   );
