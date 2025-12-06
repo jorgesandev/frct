@@ -6,7 +6,7 @@
 
 ## Overview
 
-The FRCT Risk Engine ingests probability data from **5 binary Polymarket markets** and produces a single **risk score** (0-100) that drives allocation decisions between Base and Solana.
+The FRCT Risk Engine ingests probability data from **3 binary Polymarket markets** and produces a single **risk score** (0-100) that drives allocation decisions between Base and Solana.
 
 ---
 

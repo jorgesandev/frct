@@ -7,52 +7,52 @@
 ## Deployment Verification
 
 ### Base Contract
-- [ ] `TreasuryVaultBase` deployed to Base Sepolia/Mainnet
-- [ ] Contract address: `_________________________`
-- [ ] Contract verified on Basescan
-- [ ] Test deposit completed
-- [ ] Test withdraw completed
-- [ ] Test setTargetAllocation completed
+- [x] `TreasuryVaultBase` deployed to Base Sepolia/Mainnet
+- [x] Contract address: `0x36D4d2eaDE4BD7eC4aDa5660F1B5CCfe6a25f830`
+- [x] Contract verified on Basescan
+- [x] Test deposit completed
+- [x] Test withdraw completed
+- [x] Test setTargetAllocation completed
 
 ### Solana Program
-- [ ] `TreasuryVaultSolana` deployed to Devnet/Mainnet
-- [ ] Program ID: `_________________________`
-- [ ] Vault initialized
-- [ ] Vault token account: `_________________________`
-- [ ] Test USDC deposited to vault
-- [ ] Balance readable from frontend
+- [x] `TreasuryVaultSolana` deployed to Devnet/Mainnet
+- [x] Program ID: `3V64EHasPzNu7pzFA2STpWJrSgEVAAdPbeuFQQ53SrqL`
+- [x] Vault initialized
+- [x] Vault token account: `3tg7yaecTqDSRJufwcrbiSqtJzeyiKKmLQzdkr7sgikx`
+- [x] Test USDC deposited to vault
+- [x] Balance readable from frontend
 
 ### Frontend
-- [ ] Deployed to Vercel
-- [ ] Live URL: `_________________________`
-- [ ] All environment variables configured
-- [ ] Wallet connect working
-- [ ] Base balance displaying
-- [ ] Solana balance displaying
-- [ ] Risk gauge working
-- [ ] Allocation update transaction working
-- [ ] Payout functionality working
+- [x] Deployed to Vercel
+- [x] Live URL: `frct.jorgesandoval.dev`
+- [x] All environment variables configured
+- [x] Wallet connect working
+- [x] Base balance displaying
+- [x] Solana balance displaying
+- [x] Risk gauge working
+- [x] Allocation update transaction working
+- [x] Payout functionality working
 
 ---
 
 ## Feature Completeness
 
 ### MVP Features
-- [ ] Landing page
-- [ ] Dashboard with wallet connect
-- [ ] Multi-chain balance display (Base + Solana)
-- [ ] Polymarket risk engine integration
-- [ ] Risk score visualization
-- [ ] Regime display (Defensive/Neutral/Aggressive)
-- [ ] Current vs recommended allocation view
-- [ ] Update target allocation on-chain
-- [ ] Payout/withdraw functionality
+- [x] Landing page
+- [x] Dashboard with wallet connect
+- [x] Multi-chain balance display (Base + Solana)
+- [x] Polymarket risk engine integration
+- [x] Risk score visualization
+- [x] Regime display (Defensive/Neutral/Aggressive)
+- [x] Current vs recommended allocation view
+- [x] Update target allocation on-chain
+- [x] Payout/withdraw functionality
 
 ### Stretch Features
-- [ ] CCTP Base → Solana transfer
-- [ ] Circle Payments with status tracking
+- [x] CCTP Base → Solana transfer
+- [x] Circle Payments with status tracking
 - [ ] Transaction history
-- [ ] Mobile responsiveness
+- [x] Mobile responsiveness
 
 ---
 
@@ -86,29 +86,29 @@
 ## Track & Bounty Requirements
 
 ### Base Main Track
-- [ ] Smart contract deployed on Base
-- [ ] Address: `_________________________`
-- [ ] OnchainKit used for wallet UX
-- [ ] Transaction flow originates on Base
+- [x] Smart contract deployed on Base
+- [x] Address: `0x36D4d2eaDE4BD7eC4aDa5660F1B5CCfe6a25f830`
+- [x] OnchainKit used for wallet UX
+- [x] Transaction flow originates on Base
 
 ### Solana Main Track  
-- [ ] Anchor program deployed
-- [ ] Program ID: `_________________________`
-- [ ] Real balance read from Solana RPC
-- [ ] USDC SPL token integration
+- [x] Anchor program deployed
+- [x] Program ID: `3V64EHasPzNu7pzFA2STpWJrSgEVAAdPbeuFQQ53SrqL`
+- [x] Real balance read from Solana RPC
+- [x] USDC SPL token integration
 
 ### Polymarket Bounty
-- [ ] Gamma API integration working
-- [ ] Risk score derived from real market data
-- [ ] Multiple markets weighted
-- [ ] Allocation decisions based on predictions
+- [x] Gamma API integration working
+- [x] Risk score derived from real market data
+- [x] Multiple markets weighted
+- [x] Allocation decisions based on predictions
 
 ### Circle / USDC Bounty
-- [ ] Native USDC used (not wrapped)
-- [ ] USDC vault on Base
-- [ ] USDC vault on Solana
-- [ ] Circle Payments API integration
-- [ ] (Stretch) CCTP integration
+- [x] Native USDC used (not wrapped)
+- [x] USDC vault on Base
+- [x] USDC vault on Solana
+- [x] Circle Payments API integration
+- [x] CCTP integration
 
 ---
 
@@ -178,10 +178,10 @@
 
 | Resource | URL |
 |----------|-----|
-| Live App | `_________________________` |
-| GitHub Repo | `_________________________` |
-| Demo Video | `_________________________` |
-| Devpost | `_________________________` |
-| Base Contract | `_________________________` |
-| Solana Program | `_________________________` |
+| Live App | `https://frct.jorgesandoval.dev` |
+| GitHub Repo | `https://github.com/jorgesandoval/frct` |
+| Demo Video | `[Link to video]` |
+| Devpost | `[Link to Devpost]` |
+| Base Contract | `0x36D4d2eaDE4BD7eC4aDa5660F1B5CCfe6a25f830` |
+| Solana Program | `3V64EHasPzNu7pzFA2STpWJrSgEVAAdPbeuFQQ53SrqL` |
 

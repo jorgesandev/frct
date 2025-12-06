@@ -50,7 +50,7 @@
 │                  │   │                  │   │                  │
 │ ┌──────────────┐ │   │ ┌──────────────┐ │   │ ┌──────────────┐ │
 │ │ CCTP Router  │ │   │ │   Circle     │ │   │ │  USDC SPL    │ │
-│ │  (stretch)   │◄┼───┼─┤   CCTP       ├─┼───┼─►  Token Acct  │ │
+│ │  (Base)      │◄┼───┼─┤   CCTP       ├─┼───┼─►  Token Acct  │ │
 │ └──────────────┘ │   │ └──────────────┘ │   │ └──────────────┘ │
 │                  │   │                  │   │                  │
 │ ┌──────────────┐ │   │ ┌──────────────┐ │   │                  │
@@ -111,7 +111,7 @@ User              Browser            Wallet           Base Contract
  │                  │                  │                   │
 ```
 
-### Flow 3: CCTP Rebalance (Stretch)
+### Flow 3: CCTP Rebalance
 
 ```
 User         Browser        Base Contract      CCTP         Solana Program
@@ -188,8 +188,7 @@ app/
 ```
 contracts/
 ├── src/
-│   ├── TreasuryVaultBase.sol   # Main vault contract
-│   └── CCTPBaseRouter.sol      # CCTP integration (stretch)
+│   └── TreasuryVaultBase.sol   # Main vault contract
 ├── test/
 │   └── TreasuryVaultBase.t.sol # Foundry tests
 ├── script/
