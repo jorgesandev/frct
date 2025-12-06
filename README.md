@@ -111,7 +111,7 @@ needsRebalance(uint16 thresholdBps) returns (bool)   // Check if rebalance neede
 
 ### TreasuryVaultSolana (Anchor)
 
-**Program ID:** `TBD`
+**Program ID:** `3V64EHasPzNu7pzFA2STpWJrSgEVAAdPbeuFQQ53SrqL`
 
 ```rust
 // Instructions
@@ -227,23 +227,19 @@ frct/
 
 ## Development Progress
 
-### Completed
+### Completed ✅
 
 - [x] Phase 0: Project setup, tooling, API keys
 - [x] Phase 1: Risk Engine with Polymarket integration
 - [x] Phase 2: Base smart contract (deployed & verified)
+- [x] Phase 3: Frontend foundation (OnchainKit, dashboard)
+- [x] Phase 4: Dashboard components
+- [x] Phase 5: Circle Payments integration
+- [x] Phase 6: Solana vault program (deployed on devnet)
+- [x] Phase 7: CCTP integration for cross-chain bridging
+- [x] Phase 8: Polish & Vercel deployment (live at frct.jorgesandoval.dev)
 
-### In Progress
-
-- [ ] Phase 3: Frontend foundation (OnchainKit, dashboard)
-
-### Pending
-
-- [ ] Phase 4: Dashboard components
-- [ ] Phase 5: Circle Payments integration
-- [ ] Phase 6: Solana vault program
-- [ ] Phase 7: CCTP integration (stretch)
-- [ ] Phase 8: Polish & Vercel deployment
+**Status:** All phases complete. Project fully deployed and operational.
 
 ---
 
